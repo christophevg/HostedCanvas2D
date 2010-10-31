@@ -1,0 +1,27 @@
+application: hosted-canvas2d
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /(.*\.(gif|png|jpg|ico))
+  static_files: static/\1
+  upload: static/(.*\.(gif|png|jpg|ico))
+
+- url: /css
+  static_dir: css
+
+- url: /
+  script: ListDiagrams.py
+
+- url: /load/diagrams
+  script: LoadDiagrams.py
+
+- url: /clear/diagrams
+  script: ClearDiagrams.py
+
+- url: /.*
+  script: ShowDiagram.py
+
+builtins:
+- datastore_admin: on
