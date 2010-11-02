@@ -1,0 +1,16 @@
+Hosted Canvas2D
+by Christophe VG <xtof@canvas2d.org>
+Copyright 2010, Christophe VG
+
+---
+
+Hosted Canvas2D is a hosting service, running on AppEngine, for Canvas2D
+based diagrams. It provides a manageable central repository to store Canvas2D
+diagrams and serve them in a variety of ways to HTML-enabled media.
+
+Hosted Canvas2D is a brand new implementation of the previous Hosted UmlCanvas
+service that provided this service for UmlCanvas based diagrams, an extension
+to Canvas2D. Hosted Canvas2D will enable all kinds of Canvas2D based diagrams
+to be hosted, thus superseding Hosted UmlCanvas.
+
+http://hosted.canvas2d.org
