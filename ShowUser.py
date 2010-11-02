@@ -18,7 +18,7 @@ import urllib
 class ShowUser(webapp.RequestHandler):
   def get(self):
     user = users.User(urllib.unquote(self.request.path).replace("/~",""))
-    ownedDiagrams = Diagram.all().filter("owner =", users.get_current_user()).order('created').fetch(10)
+    ownedDiagrams = Diagram.all().filter("owner =", user).order('created').fetch(10)
     authoredDiagrams = Diagram.all().filter("author =", user).order('created').fetch(10)
 
     template_values = {
