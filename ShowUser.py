@@ -8,7 +8,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext import db
 
-from Diagram import Diagram
+from Model import Diagram
 
 from Common import construct_login_url
 from Common import construct_login_urltext
@@ -17,7 +17,10 @@ import urllib
 
 class ShowUser(webapp.RequestHandler):
   def get(self):
-    user = users.User(urllib.unquote(self.request.path).replace("/~",""))
+    user = urllib.unquote(self.request.path);
+    # gmail accounts drop the @gmail.com part to create a nickname
+    if user.find( "@" ) < 0: user = user + "@gmail.com"
+    user = users.User(user.replace("/~",""))
     ownedDiagrams = Diagram.all().filter("owner =", user).order('created').fetch(10)
     authoredDiagrams = Diagram.all().filter("author =", user).order('created').fetch(10)
 
