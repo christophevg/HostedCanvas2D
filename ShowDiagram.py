@@ -8,20 +8,25 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext import db
 
-import Diagram
+from Diagram import Diagram
+
+from Common import construct_login_url
+from Common import construct_login_urltext
 
 class ShowDiagram(webapp.RequestHandler):
   def get(self):
-      key     = self.request.path.replace("/","");
-      diagram = db.get(key);
+    key     = self.request.path.replace("/","");
+    diagram = db.get(key);
 
-      template_values = {
-        'diagram' : diagram
-      }
+    template_values = {
+      'diagram'      : diagram,
+      'url'          : construct_login_url(self.request),
+      'url_linktext' : construct_login_urltext()
+    }
 
-      path = os.path.join( os.path.dirname(__file__), 
-                           'templates', 'ShowDiagram.html' )
-      self.response.out.write(template.render(path, template_values))
+    path = os.path.join( os.path.dirname(__file__), 
+                         'templates', 'ShowDiagram.html' )
+    self.response.out.write(template.render(path, template_values))
 
 application = webapp.WSGIApplication( [( '.*', ShowDiagram ) ], debug = True )
 

@@ -20,6 +20,9 @@ handlers:
 - url: /clear/diagrams
   script: ClearDiagrams.py
 
+- url: /~.*
+  script: ShowUser.py
+
 - url: /.*
   script: ShowDiagram.py
 

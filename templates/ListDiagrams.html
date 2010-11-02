@@ -1,19 +1,17 @@
-<html>
-  <head>
-    <link type="text/css" rel="stylesheet" href="/css/main.css" />
-  </head>
-  <body>
+{% extends "Base.html" %}
+
+{% block content %}
     <table border="1">
     {% for diagram in diagrams %}
       <tr>
         <th>diagram</th>
-        <td><a href="/{{ diagram.key }}">{{ diagram.title }}</a></td>
+        <td><a href="/{{ diagram.key }}">{{ diagram.name }}</a></td>
       </tr>
       <tr>
         <th>author</th>
         <td>
           {% if diagram.author %}
-            {{ diagram.author.nickname }}
+            <a href="/~{{ diagram.author.nickname }}">{{diagram.author.nickname}}</a>
           {% else %}
             An anonymous person wrote:
           {% endif %}
@@ -29,10 +27,4 @@
       </tr>
     {% endfor %}
     </table>
-
-    <a href="{{ url }}">{{ url_linktext }}</a>
-    | <a href="/load/diagrams">load diagrams</a>
-    | <a href="/clear/diagrams">clear diagrams</a>
-
-  </body>
-</html>
+{% endblock %}

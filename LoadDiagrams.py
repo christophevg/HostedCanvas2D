@@ -10,21 +10,24 @@ from Diagram import Diagram
 class LoadData(webapp.RequestHandler):
   def get(self):
     db.put( Diagram( key_name = "diagram1",
-                     author   = users.get_current_user(),
-                     title    = "first diagram",
+                     name     = "first diagram",
                      source   = '''
                      diagram secondDiagram { 
                        rectangle r +width=50 +height=50 +lineColor="green"; 
-                     }''' ) )
+                     }''',
+                     width    = 300,
+                     height   = 200,
+                     tags     = [ "example", "first" ] ) )
 
-    diag2 = Diagram( key_name = "diagram2",
-                     author   = users.get_current_user(),
-                     title    = "second diagram",
+    db.put( Diagram( key_name = "diagram2",
+                     name     = "second diagram",
                      source   = '''
                      diagram secondDiagram { 
                        rectangle r +width=50 +height=50 +lineColor="red";
-                     }''' )
-    diag2.put();
+                     }''' ,
+                     width    = 300,
+                     height   = 200,
+                     tags     = [ "example", "second" ] ) )
     self.redirect('/')
 
 application = webapp.WSGIApplication( [( '.*', LoadData )], debug = True )

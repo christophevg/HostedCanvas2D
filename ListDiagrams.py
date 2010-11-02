@@ -11,27 +11,22 @@ from google.appengine.ext import db
 
 from Diagram import Diagram
 
+from Common import construct_login_url
+from Common import construct_login_urltext
+
 class ListDiagrams(webapp.RequestHandler):
-    def get(self):
-        diagram_query = Diagram.all().order('created')
-        diagrams = diagram_query.fetch(10)
+  def get(self):
+    diagrams = Diagram.all().order('created').fetch(10)
 
-        if users.get_current_user():
-            url = users.create_logout_url(self.request.uri)
-            url_linktext = 'logout'
-        else:
-            url = users.create_login_url(self.request.uri)
-            url_linktext = 'login'
+    template_values = {
+      'diagrams'     : diagrams,
+      'url'          : construct_login_url(self.request),
+      'url_linktext' : construct_login_urltext()
+    }
 
-        template_values = {
-            'diagrams': diagrams,
-            'url': url,
-            'url_linktext': url_linktext,
-        }
-
-        path = os.path.join( os.path.dirname(__file__), 
-                             'templates', 'ListDiagrams.html' )
-        self.response.out.write(template.render(path, template_values))
+    path = os.path.join( os.path.dirname(__file__), 
+                         'templates', 'ListDiagrams.html' )
+    self.response.out.write(template.render(path, template_values))
 
 application = webapp.WSGIApplication( [( '.*', ListDiagrams )], debug = True )
 
