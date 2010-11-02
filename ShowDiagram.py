@@ -16,7 +16,7 @@ from Common import construct_login_urltext
 class ShowDiagram(webapp.RequestHandler):
   def get(self):
     key     = self.request.path.replace("/","");
-    diagram = db.get(key);
+    diagram = Diagram.get_by_key_name(key);
 
     template_values = {
       'diagram'      : diagram,
