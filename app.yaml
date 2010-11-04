@@ -4,15 +4,17 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /(.*\.(gif|png|jpg|ico))
-  static_files: static/\1
-  upload: static/(.*\.(gif|png|jpg|ico))
-
 - url: /css
   static_dir: css
 
+- url: /images
+  static_dir: images
+
 - url: /
   script: ListDiagrams.py
+
+- url: /login
+  script: Login.py
 
 - url: /load/diagrams
   script: LoadDiagrams.py

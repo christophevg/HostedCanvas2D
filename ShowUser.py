@@ -15,6 +15,8 @@ from Common import construct_login_urltext
 
 import urllib
 
+from Common import render_template
+
 class ShowUser(webapp.RequestHandler):
   def get(self):
     user = urllib.unquote(self.request.path);
@@ -32,9 +34,7 @@ class ShowUser(webapp.RequestHandler):
       'url_linktext'     : construct_login_urltext()
     }
 
-    path = os.path.join( os.path.dirname(__file__), 
-                         'templates', 'ShowUser.html' )
-    self.response.out.write(template.render(path, template_values))
+    render_template( self.response, 'ShowUser', template_values )
 
 application = webapp.WSGIApplication( [( '.*', ShowUser ) ], debug = True )
 

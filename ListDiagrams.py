@@ -1,7 +1,3 @@
-import os
-from google.appengine.ext.webapp import template
-from google.appengine.ext.webapp.template import create_template_register
-
 import cgi
 
 from google.appengine.api import users
@@ -13,6 +9,7 @@ from Model import Diagram
 
 from Common import construct_login_url
 from Common import construct_login_urltext
+from Common import render_template
 
 class ListDiagrams(webapp.RequestHandler):
   def get(self):
@@ -24,9 +21,7 @@ class ListDiagrams(webapp.RequestHandler):
       'url_linktext' : construct_login_urltext()
     }
 
-    path = os.path.join( os.path.dirname(__file__), 
-                         'templates', 'ListDiagrams.html' )
-    self.response.out.write(template.render(path, template_values))
+    render_template( self.response, 'ListDiagrams', template_values )
 
 application = webapp.WSGIApplication( [( '.*', ListDiagrams )], debug = True )
 

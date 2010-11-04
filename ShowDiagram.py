@@ -12,6 +12,7 @@ from Model import Diagram
 
 from Common import construct_login_url
 from Common import construct_login_urltext
+from Common import render_template
 
 class ShowDiagram(webapp.RequestHandler):
   def get(self):
@@ -24,9 +25,7 @@ class ShowDiagram(webapp.RequestHandler):
       'url_linktext' : construct_login_urltext()
     }
 
-    path = os.path.join( os.path.dirname(__file__), 
-                         'templates', 'ShowDiagram.html' )
-    self.response.out.write(template.render(path, template_values))
+    render_template( self.response, 'ShowDiagram', template_values )
 
 application = webapp.WSGIApplication( [( '.*', ShowDiagram ) ], debug = True )
 
