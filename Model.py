@@ -20,3 +20,6 @@ class Diagram(db.Model):
                                      choices=set(["public", "hidden"]) )
   status        = db.StringProperty( default="new",
                                      choices=set(["new", "updated", "ok", "nok"]) )
+
+class Account(db.Model):
+  user = db.UserProperty(auto_current_user=True)

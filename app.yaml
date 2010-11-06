@@ -16,6 +16,12 @@ handlers:
 - url: /login
   script: Login.py
 
+- url: /home
+  script: Home.py
+  
+- url: /api/user.*
+  script: API.py
+
 - url: /load/diagrams
   script: LoadDiagrams.py
 
