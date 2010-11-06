@@ -11,10 +11,10 @@ class Login(webapp.RequestHandler):
       self.redirect("/");
     else:
       providers = [
-        { 'name': 'Google',   'url': users.create_login_url(dest_url="", federated_identity='google.com/accounts/o8/id') },
-        { 'name': 'Yahoo',    'url': users.create_login_url(dest_url="", federated_identity='yahoo.com') },
-        { 'name': 'MySpace',  'url': users.create_login_url(dest_url="", federated_identity='myspace.com') },
-        { 'name': 'MyOpenID', 'url': users.create_login_url(dest_url="", federated_identity='myopenid.com') }
+        { 'name': 'Google',   'url': users.create_login_url(dest_url="/home", federated_identity='google.com/accounts/o8/id') },
+        { 'name': 'Yahoo',    'url': users.create_login_url(dest_url="/home", federated_identity='yahoo.com') },
+        { 'name': 'MySpace',  'url': users.create_login_url(dest_url="/home", federated_identity='myspace.com') },
+        { 'name': 'MyOpenID', 'url': users.create_login_url(dest_url="/home", federated_identity='myopenid.com') }
       ];
 
       template_values = {
