@@ -1,0 +1,30 @@
+{% extends "Base.html" %}
+
+{% block content %}
+    <table border="1">
+    {% for diagram in diagrams %}
+      <tr>
+        <th>diagram</th>
+        <td><a href="/{{ diagram.key.name }}">{{ diagram.name }}</a></td>
+      </tr>
+      <tr>
+        <th>author</th>
+        <td>
+          {% if diagram.author %}
+            <a href="/~{{ diagram.author.nickname }}">{{diagram.author.nickname}}</a>
+          {% else %}
+            An anonymous person wrote:
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th>source</th>
+        <td><blockquote>{{ diagram.source|escape }}</blockquote></td>
+      </tr>
+      <tr>
+        <th>created</th>
+        <td>{{diagram.created}}</td>
+      </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

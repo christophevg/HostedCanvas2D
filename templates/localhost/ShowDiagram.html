@@ -1,0 +1,47 @@
+{% extends "Base.html" %}
+
+{% block content %}
+  <h1>Diagram: {{ diagram.name }}</h1>
+    <canvas id="diagram" class="UmlCanvas"></canvas>
+    <pre id="diagramSource" style="display:none;">{{ diagram.source }}</pre>
+    <table border="1">
+      <tr>
+        <th>owner</td>
+        <td><a href="/~{{ diagram.owner }}">{{ diagram.owner }}</a></td>
+      </tr>
+      <tr>
+        <th>author</td>
+        <td><a href="/~{{ diagram.author }}">{{ diagram.author }}</a></td>
+      </tr>
+      <tr>
+        <th>size</td>
+        <td>{{ diagram.width }}x{{ diagram.height }}</td>
+      </tr>
+      <tr>
+        <th>description</td>
+        <td>{{ diagram.description }}</td>
+      </tr>
+      <tr>
+        <th>tags</th>
+        <td>{{ diagram.tags|join:", " }}</td>
+      </tr>
+      <tr>
+        <th>statistics</th>
+        <td>
+          views : {{ diagram.viewCount }} | 
+          edits : {{ diagram.editCount }}
+        </td>
+      </tr>
+      <tr>
+        <th>votes</th>
+        <td>
+          up : {{ diagram.voteUpCount }} | 
+          down : {{ diagram.voteDownCount }}
+        </td>
+      </tr>
+      <tr>
+        <th>notes</th>
+        <td>{{ diagram.notes }}</td>
+      </tr>
+    </table>
+{% endblock %}

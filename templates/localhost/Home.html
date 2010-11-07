@@ -1,0 +1,10 @@
+{% extends "Base.html" %}
+
+{% block content %}
+
+<h2>Home</h2>
+
+  name : {{ account.key.name }}<br>
+  email : {{ account.user.email }} (not show publicly)<br>
+
+{% endblock %}

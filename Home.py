@@ -4,17 +4,19 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 from Common import render_template
 
-from Model import Account
+from Model import create_account
+from Model import get_account_for_user
+from Model import get_account_by_name
 
 class Home(webapp.RequestHandler):
   def get(self):
     user    = self.get_logged_on_user()
-    account = self.get_account_for_user(user)
+    account = get_account_for_user(user)
     self.render( account );
 
   def post(self):
     user    = self.get_logged_on_user()
-    account = self.get_account_for_user(user)
+    account = get_account_for_user(user)
     
     name    = self.request.get("name");
     if name:
@@ -22,13 +24,13 @@ class Home(webapp.RequestHandler):
         self.render( account, "Cannot update name." )
         return
 
-      if Account.get_by_key_name(name):
+      if get_account_by_name(name):
         # an account is already registered using this name
         self.render( account, "Name is not available" )
         return
       
       # register the user with the new name
-      account = Account( key_name = name, user = user )
+      account = create_account( key_name = name, user = user )
       account.put()
 
     self.render( account );
@@ -38,10 +40,6 @@ class Home(webapp.RequestHandler):
     if not user: self.redirect("/");
     return user
   
-  def get_account_for_user(self, user):
-    account = Account.all().filter( 'user =', user ).fetch(1);
-    return account[0] if len(account) > 0 else None
-
   def render(self, account, msg = None):
     template_values = { 
       'account'      : account,
