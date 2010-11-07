@@ -1,12 +1,12 @@
 {% extends "Base.html" %}
 
 {% block content %}
-    <h1>{{ user|escape }}</h1>
+    <h1>{{ account.key.name }}</h1>
     <h2>Own diagrams</h2>
     <table border="1">
     {% for diagram in ownedDiagrams %}
       <tr>
-        <td><a href="/{{ diagram.key }}">{{ diagram.name }}</a></td>
+        <td><a href="/{{ diagram.key.name }}">{{ diagram.name }}</a></td>
         <td>{{diagram.created}}</td>
       </tr>
     {% endfor %}
@@ -16,7 +16,7 @@
     <table border="1">
     {% for diagram in authoredDiagrams %}
       <tr>
-        <td><a href="/{{ diagram.key }}">{{ diagram.name }}</a></td>
+        <td><a href="/{{ diagram.key.name }}">{{ diagram.name }}</a></td>
         <td>{{diagram.created}}</td>
       </tr>
     {% endfor %}

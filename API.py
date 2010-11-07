@@ -4,7 +4,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext import db
 
-from Model import get_account_by_name
+from Account import get_account_by_name
 
 class UserAPI(webapp.RequestHandler):
   def get(self):

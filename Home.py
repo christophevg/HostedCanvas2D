@@ -4,9 +4,9 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 from Common import render_template
 
-from Model import create_account
-from Model import get_account_for_user
-from Model import get_account_by_name
+from Account import create_account
+from Account import get_account_for_user
+from Account import get_account_by_name
 
 class Home(webapp.RequestHandler):
   def get(self):

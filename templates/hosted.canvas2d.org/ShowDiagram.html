@@ -6,12 +6,24 @@
     <pre id="diagramSource" style="display:none;">{{ diagram.source }}</pre>
     <table border="1">
       <tr>
-        <th>owner</td>
-        <td><a href="/~{{ diagram.owner }}">{{ diagram.owner }}</a></td>
+        <th>owner</th>
+        <td>
+          {% if diagram.owner %}
+            <a href="/~{{ diagram.owner.key.name }}">{{diagram.owner.key.name}}</a>
+          {% else %}
+            An anonymous owner
+          {% endif %}
+        </td>
       </tr>
       <tr>
         <th>author</td>
-        <td><a href="/~{{ diagram.author }}">{{ diagram.author }}</a></td>
+        <td>
+          {% if diagram.author %}
+            <a href="/~{{ diagram.author.key.name }}">{{diagram.author.key.name}}</a>
+          {% else %}
+            An anonymous author
+          {% endif %}
+        </td>
       </tr>
       <tr>
         <th>size</td>

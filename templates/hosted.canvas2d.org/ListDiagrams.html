@@ -11,9 +11,9 @@
         <th>author</th>
         <td>
           {% if diagram.author %}
-            <a href="/~{{ diagram.author.nickname }}">{{diagram.author.nickname}}</a>
+            <a href="/~{{ diagram.author.key.name }}">{{diagram.author.key.name}}</a>
           {% else %}
-            An anonymous person wrote:
+            An anonymous author
           {% endif %}
         </td>
       </tr>

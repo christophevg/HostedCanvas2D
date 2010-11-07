@@ -5,11 +5,14 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext import db
 
-from Model import Diagram
+from Diagram import Diagram
+from Account import get_account_by_name
 
 class LoadData(webapp.RequestHandler):
   def get(self):
     db.put( Diagram( key_name = "diagram1",
+                     owner    = get_account_by_name( 'christophe.vg' ),
+                     author   = get_account_by_name( 'christophe.vg' ),
                      name     = "first diagram",
                      source   = '''
                      diagram secondDiagram { 
@@ -20,6 +23,8 @@ class LoadData(webapp.RequestHandler):
                      tags     = [ "example", "first" ] ) )
 
     db.put( Diagram( key_name = "diagram2",
+                     owner    = get_account_by_name( 'christophe.vg' ),
+                     author   = get_account_by_name( 'christophe.vg' ),
                      name     = "second diagram",
                      source   = '''
                      diagram secondDiagram { 
@@ -28,6 +33,17 @@ class LoadData(webapp.RequestHandler):
                      width    = 300,
                      height   = 200,
                      tags     = [ "example", "second" ] ) )
+
+    db.put( Diagram( key_name = "xyz",
+                     name     = "anonymous diagram",
+                     source   = '''
+                     diagram anonymousDiagram { 
+                       rectangle r +width=50 +height=50 +lineColor="blue"; 
+                     }''',
+                     width    = 300,
+                     height   = 200,
+                     tags     = [ "example", "anonymous" ] ) )
+
     self.redirect('/')
 
 application = webapp.WSGIApplication( [( '.*', LoadData )], debug = True )
