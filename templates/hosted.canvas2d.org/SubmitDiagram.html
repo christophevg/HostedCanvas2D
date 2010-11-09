@@ -1,0 +1,26 @@
+{% extends "Base.html" %}
+
+{% block content %}
+<form action="/submit" method="post">
+<table>
+  <tr>
+    <td valign="top">
+      {% if diagram.author %}
+        id : <input name="id" value="{{ diagram.id }}"><br>
+      {% endif %}
+      name : <input name="name" value="{{ diagram.name }}"><br>
+      src : <textarea id="submissionSource" name="src">{{ diagram.source }}</textarea><br>
+      description : <textarea name="descr">{{ diagram.description }}</textarea><br>
+      notes : <textarea name="notes">{{ diagram.notes }}</textarea><br>
+    </td>
+    <td valign="top">
+      <canvas id="submission" style="border:1px solid #777" class="UmlCanvas" width="{{ diagram.width }}" height="{{ diagram.height }}"></canvas><br>
+    </td>
+  </tr>
+  <tr>
+    <td><input type="submit" name="action" value="save"></td>
+    <td></td>
+  </tr>
+</table>
+</form>
+{% endblock %}

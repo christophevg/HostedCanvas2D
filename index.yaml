@@ -17,5 +17,26 @@ indexes:
 
 - kind: Diagram
   properties:
+  - name: lastAuthor
+  - name: created
+
+- kind: Diagram
+  properties:
+  - name: last_author
+  - name: updated
+
+- kind: Diagram
+  properties:
   - name: owner
   - name: created
+
+- kind: Diagram
+  properties:
+  - name: versions.author
+  - name: created
+
+- kind: DiagramVersion
+  properties:
+  - name: diagram
+  - name: created
+    direction: desc

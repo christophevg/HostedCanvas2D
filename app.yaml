@@ -18,6 +18,12 @@ handlers:
 
 - url: /home
   script: Home.py
+
+- url: /start
+  script: CreateDiagram.py
+
+- url: /submit
+  script: SubmitDiagram.py
   
 - url: /api/user.*
   script: API.py

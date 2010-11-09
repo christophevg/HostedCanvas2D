@@ -1,27 +1,18 @@
-import cgi
-
-from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
-from google.appengine.ext import db
 
-from Diagram import Diagram
-
-from Common import construct_login_url
-from Common import construct_login_urltext
+from Diagram import Diagram 
 from Common import render_template
 
 class ListDiagrams(webapp.RequestHandler):
   def get(self):
-    diagrams = Diagram.all().order('created').fetch(10)
+    diagrams = Diagram.add_current(Diagram.all().order('-updated').fetch(10))
 
     template_values = {
-      'diagrams'     : diagrams,
-      'url'          : construct_login_url(self.request),
-      'url_linktext' : construct_login_urltext()
+      'diagrams' : diagrams
     }
 
-    render_template( self.response, 'ListDiagrams', template_values )
+    render_template( self, 'ListDiagrams', template_values )
 
 application = webapp.WSGIApplication( [( '.*', ListDiagrams )], debug = True )
 

@@ -5,13 +5,13 @@
     {% for diagram in diagrams %}
       <tr>
         <th>diagram</th>
-        <td><a href="/{{ diagram.key.name }}">{{ diagram.name }}</a></td>
+        <td><a href="/{{ diagram.key.name }}">{{ diagram.current.name }}</a></td>
       </tr>
       <tr>
-        <th>author</th>
+        <th>owner</th>
         <td>
-          {% if diagram.author %}
-            <a href="/~{{ diagram.author.key.name }}">{{diagram.author.key.name}}</a>
+          {% if diagram.owner %}
+            <a href="/~{{ diagram.owner.key.name }}">{{diagram.owner.key.name}}</a>
           {% else %}
             An anonymous author
           {% endif %}
@@ -19,7 +19,7 @@
       </tr>
       <tr>
         <th>source</th>
-        <td><blockquote>{{ diagram.source|escape }}</blockquote></td>
+        <td><pre>{{ diagram.current.source|escape }}</pre></td>
       </tr>
       <tr>
         <th>created</th>

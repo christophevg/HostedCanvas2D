@@ -1,4 +1,5 @@
 from google.appengine.ext import db
+from google.appengine.api import users
 from google.appengine.api import namespace_manager
 
 class Account(db.Model):
@@ -33,3 +34,6 @@ def get_account_for_user(user):
     namespace_manager.set_namespace(namespace);
 
   return account[0] if len(account) > 0 else None
+
+def get_account_for_current_user():
+  return get_account_for_user( users.get_current_user() )

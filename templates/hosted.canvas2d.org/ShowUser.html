@@ -6,7 +6,7 @@
     <table border="1">
     {% for diagram in ownedDiagrams %}
       <tr>
-        <td><a href="/{{ diagram.key.name }}">{{ diagram.name }}</a></td>
+        <td><a href="/{{ diagram.key.name }}">{{ diagram.current.name }}</a></td>
         <td>{{diagram.created}}</td>
       </tr>
     {% endfor %}
@@ -16,7 +16,7 @@
     <table border="1">
     {% for diagram in authoredDiagrams %}
       <tr>
-        <td><a href="/{{ diagram.key.name }}">{{ diagram.name }}</a></td>
+        <td><a href="/{{ diagram.key.name }}">{{ diagram.current.name }}</a></td>
         <td>{{diagram.created}}</td>
       </tr>
     {% endfor %}

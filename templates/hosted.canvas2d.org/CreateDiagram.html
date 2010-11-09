@@ -1,0 +1,21 @@
+{% extends "Base.html" %}
+
+{% block content %}
+
+<canvas width="400" height="300" class="UmlCanvas" 
+        style="border:1px solid #777"></canvas>
+<script>
+  UmlCanvas.on( "ready", function() {
+    UmlCanvas.Config.HuC.repository_submit_url = "/submit";
+
+    var uc = UmlCanvas.getModel();
+    with( uc.getPlugin("inspector") ) {
+      show();
+      moveTo( uc.getLeft() + uc.getWidth() + 20, uc.getTop() );
+    }
+  });
+</script>
+
+<br clear="both">
+
+{% endblock %}

@@ -3,7 +3,7 @@
 {% block content %}
   <h1>Diagram: {{ diagram.name }}</h1>
     <canvas id="diagram" class="UmlCanvas"></canvas>
-    <pre id="diagramSource" style="display:none;">{{ diagram.source }}</pre>
+    <pre id="diagramSource" style="display:none;">{{ diagram.current.source }}</pre>
     <table border="1">
       <tr>
         <th>owner</th>
@@ -18,8 +18,8 @@
       <tr>
         <th>author</td>
         <td>
-          {% if diagram.author %}
-            <a href="/~{{ diagram.author.key.name }}">{{diagram.author.key.name}}</a>
+          {% if diagram.current.author %}
+            <a href="/~{{ diagram.current.author.key.name }}">{{diagram.current.author.key.name}}</a>
           {% else %}
             An anonymous author
           {% endif %}
@@ -27,11 +27,11 @@
       </tr>
       <tr>
         <th>size</td>
-        <td>{{ diagram.width }}x{{ diagram.height }}</td>
+        <td>{{ diagram.current.width }}x{{ diagram.current.height }}</td>
       </tr>
       <tr>
         <th>description</td>
-        <td>{{ diagram.description }}</td>
+        <td>{{ diagram.current.description }}</td>
       </tr>
       <tr>
         <th>tags</th>
@@ -53,7 +53,7 @@
       </tr>
       <tr>
         <th>notes</th>
-        <td>{{ diagram.notes }}</td>
+        <td>{{ diagram.current.notes }}</td>
       </tr>
     </table>
 {% endblock %}

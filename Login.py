@@ -23,7 +23,7 @@ class Login(webapp.RequestHandler):
         'url_linktext' : "login"
       }
 
-      render_template( self.response, 'Login', template_values )
+      render_template( self, 'Login', template_values )
 
 application = webapp.WSGIApplication( [ ('.*', Login) ], debug=True )
 

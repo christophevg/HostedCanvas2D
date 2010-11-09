@@ -21,12 +21,12 @@ class Home(webapp.RequestHandler):
     name    = self.request.get("name");
     if name:
       if account: 
-        self.render( account, "Cannot update name." )
+        self.show( account, "Cannot update name." )
         return
 
       if get_account_by_name(name):
         # an account is already registered using this name
-        self.render( account, "Name is not available" )
+        self.show( account, "Name is not available" )
         return
       
       # register the user with the new name
@@ -39,8 +39,12 @@ class Home(webapp.RequestHandler):
     user = users.get_current_user()
     if not user: self.redirect("/");
     return user
-  
-  def render(self, account, msg = None):
+
+  def render(self, account=None, msg=None):
+    Home.show( account, handler = self, msg = msg )
+
+  @staticmethod  
+  def show(account, handler, msg = None):
     template_values = { 
       'account'      : account,
       'msg'          : msg,
@@ -49,7 +53,7 @@ class Home(webapp.RequestHandler):
     }
     # if the user has already an account, show its home else provision him
     template_name = 'Home' if account else 'Provision'
-    render_template( self.response, template_name, template_values )
+    render_template( handler, template_name, template_values )
 
 application = webapp.WSGIApplication( [ ('.*', Home) ], debug=True )
 
