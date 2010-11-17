@@ -1,0 +1,3 @@
+[submodule "lib/ADL"]
+	path = lib/ADL
+	url = http://github.com/christophevg/ADL.git
