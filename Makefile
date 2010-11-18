@@ -1,5 +1,5 @@
 BUILD_DIR=build
-SRCS=*.py *.yaml templates images css
+SRCS=src/*.py src/*/*.py src/*/*.yaml templates images css
 LIBS=lib/ADL/build/adl lib/antlr3
   
 all: ${BUILD_DIR}
@@ -15,4 +15,4 @@ lib/ADL/build/adl:
 
 clean:
 	@rm -rf ${BUILD_DIR}
-	@rm -f *.pyc
+	@rm -rf *.pyc
