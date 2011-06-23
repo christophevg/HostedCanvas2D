@@ -2,6 +2,7 @@ from google.appengine.ext import db
 
 from Account import Account
 from Account import get_account_for_current_user
+from Account import get_account_for_user
 
 import random
 import string
@@ -20,6 +21,14 @@ class Diagram(db.Model):
                                      choices=set(["public", "hidden"]) )
   status        = db.StringProperty( default="new",
                                      choices=set(["new", "updated", "ok", "nok"]) )
+
+  @staticmethod
+  def get(key):
+    diagram = Diagram.get_by_key_name(key);
+    if not diagram:
+      diagram = Diagram.get_by_key_name( "unknown" );
+    return diagram.load_current();
+
   @staticmethod
   def create(id=None, name="", source="", width=300, height=200,
              description="", notes="", tags=[], owner=None):
@@ -37,15 +46,9 @@ class Diagram(db.Model):
     return ''.join((random.choice(string.letters+string.digits) 
       for _ in xrange(random.randint(8,8))))
 
-  @staticmethod
-  def add_current(diagrams):
-    if type(diagrams).__name__ == 'list':
-      for diagram in diagrams:
-        diagram.current = diagram.versions.order('-created').fetch(1)[0]
-      return diagrams
-    else:
-      diagrams.current = diagrams.versions.order('-created').fetch(1)[0]
-      return diagrams
+  def load_current(self):
+    self.current = self.versions.order("-created").fetch(1)[0];
+    return self;
 
   def add_version(self, author, name="", source="", width=300, height=200,
                   description="", notes="" ):
@@ -62,6 +65,23 @@ class Diagram(db.Model):
     self.lastAuthor = author
     self.put()
     return version
+
+  def asHash(self):
+    self.load_current();
+    return {
+      "id"    : self.key().name(),
+      "name"  : self.current.name,
+      "descr" : self.current.description,
+      "src"   : self.current.source,
+      "width" : self.current.width,
+      "height": self.current.height,
+      "owner" : self.owner.key().name(),
+      "author": self.current.author.key().name(),
+      "notes" : self.current.notes,
+      "views" : self.viewCount,
+      "edits" : self.editCount,
+      "auth"  : self.owner == get_account_for_current_user()
+    };
 
 class DiagramVersion(db.Model):
   diagram       = db.ReferenceProperty(Diagram, collection_name="versions")

@@ -6,8 +6,8 @@ from Common import render_template
 
 class ShowDiagram(webapp.RequestHandler):
   def get(self):
-    key     = self.request.path.replace("/","")
-    diagram = Diagram.add_current(Diagram.get_by_key_name(key))
+    key     = self.request.path.replace("/","");
+    diagram = Diagram.get(key);
 
     template_values = {
       'diagram' : diagram

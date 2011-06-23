@@ -6,7 +6,8 @@ from Common import render_template
 
 class ListDiagrams(webapp.RequestHandler):
   def get(self):
-    diagrams = Diagram.add_current(Diagram.all().order('-updated').fetch(10))
+    diagrams = Diagram.all().order('-updated').fetch(10);
+    for diagram in diagrams: diagram.load_current();
 
     template_values = {
       'diagrams' : diagrams

@@ -10,6 +10,12 @@ handlers:
 - url: /images
   static_dir: images
 
+- url: /js
+  static_dir: js
+
+- url: /html
+  static_dir: html
+
 - url: /
   script: ListDiagrams.py
 
@@ -36,6 +42,9 @@ handlers:
 
 - url: /~.*
   script: ShowUser.py
+
+- url: /.*[\.:](adl|json|js|script)
+  script: ServeDiagram.py
 
 - url: /.*
   script: ShowDiagram.py

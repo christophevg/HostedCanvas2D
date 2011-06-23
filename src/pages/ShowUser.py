@@ -12,8 +12,10 @@ class ShowUser(webapp.RequestHandler):
   def get(self):
     user             = urllib.unquote(self.request.path);
     account          = get_account_by_name(user.replace("/~",""))
-    ownedDiagrams    = Diagram.add_current(account.owned_diagrams.order("created").fetch(10))
-    authoredDiagrams = Diagram.add_current(account.authored_diagrams.order("created").fetch(10))
+    ownedDiagrams    = account.owned_diagrams.order("created").fetch(10)
+    for diagram in ownedDiagram: diagram.load_current();
+    authoredDiagrams = account.authored_diagrams.order("created").fetch(10)
+    for diagram in authoredDiagrams: diagram.load_current();
 
     template_values = {
       'account'          : account,
