@@ -2,7 +2,7 @@ from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
-import json
+from django.utils import simplejson
 
 from Diagram import Diagram
 from Common import render_template
@@ -17,7 +17,7 @@ class ServeADL(webapp.RequestHandler):
 class ServeJSON(webapp.RequestHandler):
   def get(self, key, delim):
     diagram = Diagram.get(key);
-    response = json.dumps(diagram.asHash());
+    response = simplejson.dumps(diagram.asHash());
     mime = "json";
     
     handler = self.request.get( 'f' );
