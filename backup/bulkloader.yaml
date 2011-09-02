@@ -1,0 +1,131 @@
+python_preamble:
+- import: base64
+- import: re
+- import: google.appengine.ext.bulkload.transform
+- import: google.appengine.ext.bulkload.bulkloader_wizard
+- import: google.appengine.ext.db
+- import: google.appengine.api.datastore
+- import: google.appengine.api.users
+- import: helpers
+
+transformers:
+
+- kind: Account
+  connector: csv
+  connector_options:
+    column_list: [ key, user ]
+  property_map:
+    - property: __key__
+      external_name: key
+      export_transform: transform.key_id_or_name_as_string
+
+    - property: user
+      external_name: user
+      import_transform: transform.none_if_empty(users.User)
+
+
+- kind: DiagramVersion
+  connector: csv
+  connector_options:
+    column_list: [ key,diagram,name,description,author,width,height,created,source,notes ]
+  property_map:
+    - property: __key__
+      external_name: key
+      export_transform: transform.key_id_or_name_as_string
+      import_transform: transform.create_foreign_key('DiagramVersion', key_is_id=True)
+
+    - property: author
+      external_name: author
+      import_transform: helpers.create_foreign_key('Account', '-global-')
+      export_transform: transform.key_id_or_name_as_string
+
+    - property: created
+      external_name: created
+      import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
+      export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
+
+    - property: description
+      external_name: description
+      import_transform: db.Text
+
+    - property: diagram
+      external_name: diagram
+      import_transform: transform.create_foreign_key('Diagram')
+      export_transform: transform.key_id_or_name_as_string
+
+    - property: height
+      external_name: height
+      import_transform: transform.none_if_empty(int)
+
+    - property: name
+      external_name: name
+
+    - property: notes
+      external_name: notes
+      import_transform: db.Text
+
+    - property: source
+      external_name: source
+      import_transform: db.Text
+
+    - property: width
+      external_name: width
+      import_transform: transform.none_if_empty(int)
+
+
+- kind: Diagram
+  connector: csv
+  connector_options:
+    column_list: [ key,owner,lastAuthor,status,visibility,updated,created,voteUpCount,voteDownCount,viewCount,editCount,tags ]
+
+  property_map:
+    - property: __key__
+      external_name: key
+      export_transform: transform.key_id_or_name_as_string
+
+    - property: created
+      external_name: created
+      import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
+      export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
+
+    - property: editCount
+      external_name: editCount
+      import_transform: transform.none_if_empty(int)
+
+    - property: lastAuthor
+      external_name: lastAuthor
+      import_transform: helpers.create_foreign_key('Account', '-global-')
+      export_transform: transform.key_id_or_name_as_string
+
+    - property: owner
+      external_name: owner
+      import_transform: helpers.create_foreign_key('Account', '-global-' )
+      export_transform: transform.key_id_or_name_as_string
+
+    - property: status
+      external_name: status
+
+    - property: tags
+      external_name: tags
+      export_transform: "lambda x: x and ' '.join(x) or ''"
+      import_transform: "lambda x: x.split(' ')"
+
+    - property: updated
+      external_name: updated
+      import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
+      export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
+
+    - property: viewCount
+      external_name: viewCount
+      import_transform: transform.none_if_empty(int)
+
+    - property: visibility
+      external_name: visibility
+
+    - property: voteDownCount
+      external_name: voteDownCount
+      import_transform: transform.none_if_empty(int)
+
+    - property: voteUpCount
+      external_name: voteUpCount
+      import_transform: transform.none_if_empty(int)

@@ -45,3 +45,4 @@ handlers:
 
 builtins:
 - datastore_admin: on
+- remote_api: on
