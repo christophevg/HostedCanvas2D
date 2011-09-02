@@ -1,30 +1,30 @@
 {% extends "Base.html" %}
 
 {% block content %}
-    <table border="1">
-    {% for diagram in diagrams %}
-      <tr>
-        <th>diagram</th>
-        <td><a href="/{{ diagram.key.name }}">{{ diagram.current.name }}</a></td>
-      </tr>
-      <tr>
-        <th>owner</th>
-        <td>
-          {% if diagram.owner %}
-            <a href="/~{{ diagram.owner.key.name }}">{{diagram.owner.key.name}}</a>
-          {% else %}
+<h2>10 most recently updated diagrams</h2>
+<ul>
+{% for diagram in updated %}
+  <li><a href="/{{ diagram.key.name }}">{{ diagram.current.name }}</a>
+      by {% if diagram.owner %}
+           <a href="/~{{ diagram.owner.key.name }}">{{diagram.owner.key.name}}</a>
+         {% else %}
             An anonymous author
-          {% endif %}
-        </td>
-      </tr>
-      <tr>
-        <th>source</th>
-        <td><pre>{{ diagram.current.source|escape }}</pre></td>
-      </tr>
-      <tr>
-        <th>created</th>
-        <td>{{diagram.created}}</td>
-      </tr>
+         {% endif %}
+      on {{diagram.updated}}
     {% endfor %}
-    </table>
+</ul>
+
+<h2>10 most viewed diagrams</h2>
+<ul>
+{% for diagram in viewed %}
+  <li><a href="/{{ diagram.key.name }}">{{ diagram.current.name }}</a>
+      by {% if diagram.owner %}
+           <a href="/~{{ diagram.owner.key.name }}">{{diagram.owner.key.name}}</a>
+         {% else %}
+            An anonymous author
+         {% endif %}
+      : {{diagram.viewCount}}
+    {% endfor %}
+</ul>
+
 {% endblock %}

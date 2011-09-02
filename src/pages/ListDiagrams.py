@@ -6,13 +6,16 @@ from Common import render_template
 
 class ListDiagrams(webapp.RequestHandler):
   def get(self):
-    diagrams = Diagram.all().order('-updated').fetch(10);
-    for diagram in diagrams: diagram.load_current();
+    updated = Diagram.all().order('-updated').fetch(10);
+    viewed  = Diagram.all().order('-viewCount').fetch(10);
+
+    for diagram in updated: diagram.load_current();
+    for diagram in viewed:  diagram.load_current();
 
     template_values = {
-      'diagrams' : diagrams
+      'updated' : updated,
+      'viewed'  : viewed
     }
-
     render_template( self, 'ListDiagrams', template_values )
 
 application = webapp.WSGIApplication( [( '.*', ListDiagrams )], debug = True )
