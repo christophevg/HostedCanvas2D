@@ -13,7 +13,7 @@ class ShowUser(webapp.RequestHandler):
     user             = urllib.unquote(self.request.path);
     account          = get_account_by_name(user.replace("/~",""))
     ownedDiagrams    = account.owned_diagrams.order("created").fetch(10)
-    for diagram in ownedDiagram: diagram.load_current();
+    for diagram in ownedDiagrams: diagram.load_current();
     authoredDiagrams = account.authored_diagrams.order("created").fetch(10)
     for diagram in authoredDiagrams: diagram.load_current();
 

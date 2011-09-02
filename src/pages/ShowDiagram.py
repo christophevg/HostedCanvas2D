@@ -9,11 +9,12 @@ class ShowDiagram(webapp.RequestHandler):
     key     = self.request.path.replace("/","");
     diagram = Diagram.get(key);
 
-    template_values = {
-      'diagram' : diagram
-    }
+    if diagram:
+      template_values = {
+        'diagram' : diagram
+      }
 
-    render_template( self, 'ShowDiagram', template_values )
+      render_template( self, 'ShowDiagram', template_values )
 
 application = webapp.WSGIApplication( [( '.*', ShowDiagram ) ], debug = True )
 

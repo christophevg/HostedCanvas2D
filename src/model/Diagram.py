@@ -27,7 +27,8 @@ class Diagram(db.Model):
     diagram = Diagram.get_by_key_name(key);
     if not diagram:
       diagram = Diagram.get_by_key_name( "unknown" );
-    return diagram.load_current();
+    if diagram:
+    	return diagram.load_current();
 
   @staticmethod
   def create(id=None, name="", source="", width=300, height=200,
