@@ -6,10 +6,11 @@ from Account import get_account_for_user
 
 import random
 import string
+import datetime
 
 class Diagram(db.Model):
   created       = db.DateTimeProperty(auto_now_add=True)
-  updated       = db.DateTimeProperty(auto_now=True)
+  updated       = db.DateTimeProperty()
   lastAuthor    = db.ReferenceProperty(Account, collection_name="authored_diagrams")
   owner         = db.ReferenceProperty(Account, collection_name="owned_diagrams")
   tags          = db.StringListProperty()
@@ -64,11 +65,17 @@ class Diagram(db.Model):
                               notes       = notes );
     version.put()
     self.lastAuthor = author
-    self.put()
+    self.update()
     return version
 
-  def asHash(self):
+  def to_hash(self):
     self.load_current();
+    owner  = "An anonymous user";
+    author = "An anonymous user";
+    if self.owner != None: 
+      owner = self.owner.key().name();
+    if self.current.author != None:
+      author = self.current.author.key().name();
     return {
       "id"    : self.key().name(),
       "name"  : self.current.name,
@@ -76,13 +83,22 @@ class Diagram(db.Model):
       "src"   : self.current.source,
       "width" : self.current.width,
       "height": self.current.height,
-      "owner" : self.owner.key().name(),
-      "author": self.current.author.key().name(),
+      "owner" : owner,
+      "author": author,
       "notes" : self.current.notes,
       "views" : self.viewCount,
       "edits" : self.editCount,
       "auth"  : self.owner == get_account_for_current_user()
     };
+
+  def increase_view_count(self):
+    self.viewCount += 1;
+    self.put();
+    return self;
+
+  def update(self):
+    self.updated = datetime.datetime.today();
+    super(Diagram, self).save(*args, **kwargs);
 
 class DiagramVersion(db.Model):
   diagram       = db.ReferenceProperty(Diagram, collection_name="versions")
