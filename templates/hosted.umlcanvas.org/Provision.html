@@ -1,0 +1,64 @@
+{% extends "Base.html" %}
+
+{% block content %}
+
+<h2>Welcome ...</h2>
+<p>
+  According to our records this is your first visit to out site. Please choose
+  a name that you will use to identify yourself publicly on the site.
+</p>
+
+<p>
+  If you don't want to use this login, want to log out and use another,
+  possibly already registered account, you can 
+  <a href="{{ url }}">leave here</a>.
+</p>
+
+  <script>
+    function update() {
+      var action = document.getElementById("action");
+      action.disabled = document.getElementById("name").value == "";
+      action.value = "check";
+    }
+    
+    function act() {
+      var action = document.getElementById("action");
+      var name   = document.getElementById("name");
+      var form   = document.getElementById("form");
+      var msg    = document.getElementById("msg");      
+      switch( action.value ) {
+        case "check":
+          msg.innerHTML = "checking availability...";
+          new ProtoJS.Ajax().fetch( "/api/user?name=" + name.value, 
+            function(result) {
+              if( result.readyState != 4 ) { return; }
+              if( result.responseText != name.value ) {
+                action.value = "save";
+                msg.innerHTML = "name is available";
+              } else {
+                msg.innerHTML = "name is not available";
+              }
+            }
+          );
+          break;
+        case "save":
+          form.submit();
+          break;
+      }
+    }
+  </script>
+  
+  {% if msg %}
+  <div style="text-align:center;border:2px solid red;background-color: #fee;">
+    <b>ERROR</b><br>
+    {{ msg }}
+  </div><br>
+  {% endif %}
+  
+  <form id="form" action="/home" method="post">
+    name : <input id="name" name="name" onkeyup="update();"> 
+    <input id="action" type="button" onclick="act();" value="check" disabled>
+    <span id="msg"></span>
+  </form>
+  
+{% endblock %}

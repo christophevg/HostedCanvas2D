@@ -1,0 +1,11 @@
+{% extends "Base.html" %}
+
+{% block content %}
+
+<h2>Login</h2>
+
+    {% for provider in providers %}
+      <a href="{{ provider.url }}"><img src="images/{{ provider.name }}.png"></a> 
+    {% endfor %}
+
+{% endblock %}

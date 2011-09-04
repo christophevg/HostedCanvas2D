@@ -1,0 +1,68 @@
+{% extends "Base.html" %}
+
+{% block content %}
+  <h1>Diagram: {{ diagram.current.name }}</h1>
+    <canvas id="{{ diagram.key.name }}" class="UmlCanvas"></canvas>
+    <table border="1">
+      <tr>
+        <th>owner</th>
+        <td>
+          {% if diagram.owner %}
+            <a href="/~{{ diagram.owner.key.name }}">{{diagram.owner.key.name}}</a>
+          {% else %}
+            An anonymous owner
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th>author</th>
+        <td>
+          {% if diagram.current.author %}
+            <a href="/~{{ diagram.current.author.key.name }}">{{diagram.current.author.key.name}}</a>
+          {% else %}
+            An anonymous author
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th>size</th>
+        <td>{{ diagram.current.width }}x{{ diagram.current.height }}</td>
+      </tr>
+      <tr>
+        <th>description</th>
+        <td>{{ diagram.current.description }}</td>
+      </tr>
+      <tr>
+        <th>tags</th>
+        <td>{{ diagram.tags|join:", " }}</td>
+      </tr>
+      <tr>
+        <th>statistics</th>
+        <td>
+          views : {{ diagram.viewCount }} | 
+          edits : {{ diagram.editCount }}
+        </td>
+      </tr>
+      <tr>
+        <th>votes</th>
+        <td>
+          up : {{ diagram.voteUpCount }} | 
+          down : {{ diagram.voteDownCount }}
+        </td>
+      </tr>
+      <tr>
+        <th>notes</th>
+        <td>{{ diagram.current.notes }}</td>
+      </tr>
+      <tr>
+        <th rowspan="3">embed</th>
+        <td>HTML/JS <a href="http://hosted.umlcanvas.org/{{ diagram.key.name }}.js">http://hosted.umlcanvas.org/{{ diagram.key.name }}.js</a></td>
+      </tr>
+      <tr>
+        <td>json <a href="http://hosted.umlcanvas.org/{{ diagram.key.name }}.json">http://hosted.umlcanvas.org/{{ diagram.key.name }}.json</a></td>
+      </tr>
+      <tr>
+        <td>ADL <a href="http://hosted.umlcanvas.org/{{ diagram.key.name }}.adl">http://hosted.umlcanvas.org/{{ diagram.key.name }}.adl</a></td>
+      </tr>
+    </table>
+{% endblock %}
