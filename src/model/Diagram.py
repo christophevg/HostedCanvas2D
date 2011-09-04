@@ -3,6 +3,7 @@ from google.appengine.ext import db
 from Account import Account
 from Account import get_account_for_current_user
 from Account import get_account_for_user
+from Account import get_account_by_name
 
 import random
 import string
@@ -28,8 +29,26 @@ class Diagram(db.Model):
     diagram = Diagram.get_by_key_name(key);
     if not diagram:
       diagram = Diagram.get_by_key_name( "unknown" );
-    if diagram:
-    	return diagram.load_current();
+    if not diagram:
+      # lazy load unknown diagram
+      diagram = Diagram.create_unknown_diagram();
+    return diagram.load_current();
+
+  @staticmethod
+  def create_unknown_diagram():
+    return Diagram.create(
+        id          = "unknown",
+        owner       = get_account_by_name( 'christophe.vg' ),
+        name        = "Unknown Diagram",
+        source      = '''
+diagram UnknownDiagram {
+  [@60,60]
+  note error +text="Unknown Diagram";
+}''',
+        description = '''This a placeholder for unknown diagrams.
+The diagram referenced by the given name was not found in our repository.''',
+        width       = 250,
+        height      = 200 )
 
   @staticmethod
   def create(id=None, name="", source="", width=300, height=200,
@@ -98,7 +117,7 @@ class Diagram(db.Model):
 
   def update(self):
     self.updated = datetime.datetime.today();
-    super(Diagram, self).save(*args, **kwargs);
+    super(Diagram, self).save();
 
 class DiagramVersion(db.Model):
   diagram       = db.ReferenceProperty(Diagram, collection_name="versions")

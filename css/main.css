@@ -2,3 +2,10 @@ body {
   font-family: Verdana, Helvetica, sans-serif;
   background-color: #DDDDDD;
 }
+
+DIV.message {
+  margin: 20px;
+  padding: 10px;
+  border: 2px solid #777;
+  background-color: #eee;
+}
