@@ -55,7 +55,7 @@ bulkloader.yaml:
 	@read
 
 restore:
-	for kind in ${KINDS}; do \
+	@for kind in ${KINDS}; do \
 		echo "*** restoring ${APP_NS} $${kind}s"; \
 		${APPCFG_UPLOAD} --namespace=${APP_NS} \
 						 --filename=$${kind}.csv \

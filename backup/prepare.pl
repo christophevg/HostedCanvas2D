@@ -19,6 +19,16 @@ while( <$users> ) {
 }
 close $users;
 
+# preload the existing viewCounts
+%viewCounts = ();
+open my $views, "viewCounts.tsv" or die $!;
+while( <$views> ) {
+  chomp;
+  my ( $diagram, $count ) = split /\t/;
+  $viewCounts{$diagram} = $count;
+}
+close $views;
+
 my $csv = Text::CSV->new( { binary => 1, eol => "\012" } );
 
 # starting point for IDs for this upload
@@ -45,6 +55,10 @@ while(<>) {
 
   # convert src
   $src =~ s/(\\r)?\\n/\n/g;
+  
+  # use the latest viewCount / edit = 1
+  $views = $viewCounts{$id};
+  $edits = 1;
 
   # diagrams
   $csv->print( $diagrams, [ $id, $created, $updated, 

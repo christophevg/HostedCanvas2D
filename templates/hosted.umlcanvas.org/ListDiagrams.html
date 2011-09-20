@@ -4,7 +4,7 @@
 <h2>10 most recently updated diagrams</h2>
 <ul>
 {% for diagram in updated %}
-  <li><a href="/{{ diagram.key.name }}">{{ diagram.current.name }}</a>
+  <li><a href="/{{ diagram.key.name }}">{{ diagram.name }}</a>
       by {% if diagram.owner %}
            <a href="/~{{ diagram.owner.key.name }}">{{diagram.owner.key.name}}</a>
          {% else %}
@@ -17,7 +17,7 @@
 <h2>10 most viewed diagrams</h2>
 <ul>
 {% for diagram in viewed %}
-  <li><a href="/{{ diagram.key.name }}">{{ diagram.current.name }}</a>
+  <li><a href="/{{ diagram.key.name }}">{{ diagram.name }}</a>
       by {% if diagram.owner %}
            <a href="/~{{ diagram.owner.key.name }}">{{diagram.owner.key.name}}</a>
          {% else %}

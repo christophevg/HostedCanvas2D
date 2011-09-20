@@ -25,7 +25,7 @@ class ServeADL(webapp.RequestHandler):
     diagram = get_and_count_diagram(key, self.request, self.response);
 
     self.response.headers['Content-Type'] = "application/adl";
-    self.response.out.write(diagram.current.source);
+    self.response.out.write(diagram.source);
 
 # serve the diagram in JSON format, optionally embed it in a callback method
 # to allow JSONP requests from other domains

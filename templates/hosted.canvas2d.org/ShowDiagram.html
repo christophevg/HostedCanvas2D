@@ -1,7 +1,7 @@
 {% extends "Base.html" %}
 
 {% block content %}
-  <h1>Diagram: {{ diagram.current.name }}</h1>
+  <h1>Diagram: {{ diagram.name }}</h1>
     <canvas id="{{ diagram.key.name }}" class="UmlCanvas"></canvas>
     <table border="1">
       <tr>
@@ -17,8 +17,8 @@
       <tr>
         <th>author</th>
         <td>
-          {% if diagram.current.author %}
-            <a href="/~{{ diagram.current.author.key.name }}">{{diagram.current.author.key.name}}</a>
+          {% if diagram.author %}
+            <a href="/~{{ diagram.author.key.name }}">{{diagram.author.key.name}}</a>
           {% else %}
             An anonymous author
           {% endif %}
@@ -26,11 +26,11 @@
       </tr>
       <tr>
         <th>size</th>
-        <td>{{ diagram.current.width }}x{{ diagram.current.height }}</td>
+        <td>{{ diagram.width }}x{{ diagram.height }}</td>
       </tr>
       <tr>
         <th>description</th>
-        <td>{{ diagram.current.description }}</td>
+        <td>{{ diagram.description }}</td>
       </tr>
       <tr>
         <th>tags</th>
@@ -52,7 +52,7 @@
       </tr>
       <tr>
         <th>notes</th>
-        <td>{{ diagram.current.notes }}</td>
+        <td>{{ diagram.notes }}</td>
       </tr>
       <tr>
         <th rowspan="3">embed</th>
