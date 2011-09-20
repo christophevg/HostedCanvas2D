@@ -9,9 +9,6 @@ class ListDiagrams(webapp.RequestHandler):
     updated = Diagram.all().order('-updated').fetch(10);
     viewed  = Diagram.all().order('-viewCount').fetch(10);
 
-    for diagram in updated: diagram.load_current();
-    for diagram in viewed:  diagram.load_current();
-
     template_values = {
       'updated' : updated,
       'viewed'  : viewed

@@ -6,6 +6,13 @@ from google.appengine.ext import db
 
 from Account import get_account_by_name
 
+# this API module provides REST interfaces to the underlying datamodel
+# currently supported calls include
+# /api/user?name=someusername - returns someusername if the user exists
+# TODO: change this to returning a JSON object representing the user
+# TODO: change this to a similar interface with extensions on user
+#       e.g. /~someuser.json
+
 class UserAPI(webapp.RequestHandler):
   def get(self):
     self.response.headers['Content-Type'] = 'text/plain'

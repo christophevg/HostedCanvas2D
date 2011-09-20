@@ -16,6 +16,8 @@ class SubmitDiagram(webapp.RequestHandler):
     # nothing to get here ...
     self.redirect("/");
 
+  # method to get the submitted source from the request, parse it and return
+  # the parse tree back as cleanly re-generated ADL code (==sanity check)
   def get_source(self):
     model = adl.parse(self.request.get("src"))
     return "\n".join(["%s" % (s) for s in model])
@@ -48,31 +50,36 @@ class SubmitDiagram(webapp.RequestHandler):
       }
       render_template( self, "SubmitDiagram", template_values )
       
-  def save(self, diagram):
-    prev_diagram = None
-    if diagram['id'] != None and diagram['id'] != "":
-      prev_diagram = Diagram.get_by_key_name(diagram['id']) 
+  def save(self, data):
+    diagram = None
     
-    if prev_diagram == None:
-      new_dia = Diagram.create( id          = diagram['id'],
-                                name        = diagram['name'],
-                                source      = diagram['source'],
-                                width       = diagram['width'],
-                                height      = diagram['height'],
-                                description = diagram['description'],
-                                notes       = diagram['notes'],
-                                owner       = diagram['author'] )
+    # try to retrieve an existing diagram
+    if data['id'] != None and data['id'] != "":
+      diagram = Diagram.get_by_key_name(data['id']) 
+    
+    # if we don't have on, create a new one
+    if diagram == None:
+      diagram = Diagram.create( id          = data['id'],
+                                name        = data['name'],
+                                source      = data['source'],
+                                width       = data['width'],
+                                height      = data['height'],
+                                description = data['description'],
+                                notes       = data['notes'],
+                                owner       = data['author'] )
     else:  
-      version = prev_diagram.add_version( name        = diagram['name'],
-                                          source      = diagram['source'],
-                                          width       = diagram['width'],
-                                          height      = diagram['height'],
-                                          description = diagram['description'],
-                                          notes       = diagram['notes'],
-                                          owner       = diagram['author'] )
-      new_dia = version.diagram
+      # update the relevant data
+      diagram.name       = data['name'];
+      diagram.source     = data['source'];
+      diagram.width      = data['width'];
+      diagram.height     = data['height'];
+      diagram.descripton = data['description'];
+      diagram.notes      = data['notes'];
 
-    self.redirect( "/" + new_dia.key().name() )
+    # persist the diagram, which will trigger the generation of a version
+    diagram.persist();
+
+    self.redirect( "/" + diagram.key().name() )
 
 application = webapp.WSGIApplication( [ ('.*', SubmitDiagram) ], debug=True )
 

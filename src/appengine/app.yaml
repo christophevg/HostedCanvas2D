@@ -34,6 +34,12 @@ handlers:
 - url: /api/user.*
   script: API.py
 
+- url: /load/diagrams
+  script: LoadDiagrams.py
+
+- url: /clear/diagrams
+  script: ClearDiagrams.py
+
 - url: /~.*
   script: ShowUser.py
 

@@ -7,6 +7,8 @@ from django.utils import simplejson
 from Diagram import Diagram
 from Common import render_template
 
+# global method to get a diagram, increase the viewCount and keep a reference
+# in a session cookie to avoid increasing the viewCount when simply refreshing 
 def get_and_count_diagram(key, request, response):
   diagram = Diagram.get(key);
   seen = '';
@@ -17,6 +19,7 @@ def get_and_count_diagram(key, request, response):
     response.headers.add_header( 'Set-Cookie','seen=' + seen + ';' );
   return diagram;
 
+# serve the diagram in ADL format
 class ServeADL(webapp.RequestHandler):
   def get(self, key, delim):
     diagram = get_and_count_diagram(key, self.request, self.response);
@@ -24,6 +27,8 @@ class ServeADL(webapp.RequestHandler):
     self.response.headers['Content-Type'] = "application/adl";
     self.response.out.write(diagram.current.source);
 
+# serve the diagram in JSON format, optionally embed it in a callback method
+# to allow JSONP requests from other domains
 class ServeJSON(webapp.RequestHandler):
   def get(self, key, delim):
     diagram = get_and_count_diagram(key, self.request, self.response);
@@ -37,6 +42,8 @@ class ServeJSON(webapp.RequestHandler):
     self.response.headers['Content-Type'] = "application/" + mime;
     self.response.out.write(response);
 
+# serve the diagram as JavaScript that embeds the diagram with a Hosted
+# frame
 class ServeJS(webapp.RequestHandler):
   def get(self, key, delim):
     diagram = get_and_count_diagram(key, self.request, self.response);
@@ -46,7 +53,8 @@ class ServeJS(webapp.RequestHandler):
     }
 
     render_template( self, 'EmbedJS', template_values )
-    
+
+# a catch-all that shouldn't be reached, simply returning the requested path
 class ServeDefault(webapp.RequestHandler):
   def get(self):
     self.response.out.write(self.request.path);

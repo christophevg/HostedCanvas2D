@@ -21,7 +21,7 @@ close $users;
 
 my $csv = Text::CSV->new( { binary => 1, eol => "\012" } );
 
-# stating point for this upload
+# starting point for IDs for this upload
 my $num = 50000;
 
 while(<>) {
@@ -30,27 +30,37 @@ while(<>) {
   $_ =~ s/\\N//g;
   
   my ( $id, $name, $src, $width, $height, $author, $descr, $tags, $created, 
-       $modified, $views, $edits, $voteup, $votedown, $notes, $visibility, 
+       $updated, $views, $edits, $voteup, $votedown, $notes, $visibility, 
        $status ) = split /\t/;
 
   # we don't use the 'unknown' user account anymore
   $author = "" if $author eq "unknown";
 
   # convert dates
-  $created  =~ s/^([0-9\-]+) ([0-9:]+)\..*$/$1T$2/;
-  $modified =~ s/^([0-9\-]+) ([0-9:]+)\..*$/$1T$2/;
+  $created =~ s/^([0-9\-]+) ([0-9:]+)\..*$/$1T$2/;
+  $updated =~ s/^([0-9\-]+) ([0-9:]+)\..*$/$1T$2/;
+
+  # owner == initial author
+  my $owner = $author;
 
   # convert src
   $src =~ s/(\\r)?\\n/\n/g;
 
   # diagrams
-  $csv->print( $diagrams, [ $id, $author, $author, $status, $visibility,
-                           $modified, $created, $voteup, $votedown, $views,
-                           $edits, $tags ] );
+  $csv->print( $diagrams, [ $id, $created, $updated, 
+                            $owner, $author, $name, 
+                            $src, $width, $height, 
+                            $descr, $notes, $tags, 
+                            $views, $edits, $voteup, $votedown, 
+                            $visibility, $status ] );
 
   # diagramversions
-  $csv->print( $versions, [ $num++, $id, $name, $descr, $author, $width, 
-                            $height, $modified, $src, $notes ] );
+  $csv->print( $versions, [ $num++, $id, $created, $updated, 
+                            $owner, $author, $name, 
+                            $src, $width, $height, 
+                            $descr, $notes, $tags, 
+                            $views, $edits, $voteup, $votedown, 
+                            $visibility, $status ] );
                            
   # accounts
   $csv->print( $accounts, [ $author, $users{$author} ] ) 
