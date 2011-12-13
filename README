@@ -1,5 +1,5 @@
 Hosted Canvas2D
-by Christophe VG <xtof@canvas2d.org>
+by Christophe VG <contact@christophe.vg>
 Copyright 2010-2011, Christophe VG
 
 ---
@@ -12,5 +12,3 @@ Hosted Canvas2D is a brand new implementation of the previous Hosted UmlCanvas
 service that provided this service for UmlCanvas based diagrams, an extension
 to Canvas2D. Hosted Canvas2D will enable all kinds of Canvas2D based diagrams
 to be hosted, thus superseding Hosted UmlCanvas.
-
-http://hosted.canvas2d.org
